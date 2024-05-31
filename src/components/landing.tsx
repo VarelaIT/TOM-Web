@@ -7,6 +7,7 @@ export default function Landing() {
       component="section"
       display="flex"
       alignItems="center"
+      justifyContent="center"
       sx={{
         width: "100%",
         height: "100%",
