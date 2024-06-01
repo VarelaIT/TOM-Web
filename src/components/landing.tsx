@@ -1,4 +1,5 @@
 import { Box, Typography, LinearProgress } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function Landing() {
   //center the content
@@ -28,6 +29,10 @@ export default function Landing() {
         </Typography>
         <Box sx={{ width: "100%" }}>
           <LinearProgress color="secondary" />
+        </Box>
+        <Box>
+          <Link to="/">home</Link>
+          <Link to="/sesion">session</Link>
         </Box>
       </Box>
     </Box>
