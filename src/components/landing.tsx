@@ -30,10 +30,6 @@ export default function Landing() {
         <Box sx={{ width: "100%" }}>
           <LinearProgress color="secondary" />
         </Box>
-        <Box>
-          <Link to="/">home</Link>
-          <Link to="/sesion">session</Link>
-        </Box>
       </Box>
     </Box>
   );
