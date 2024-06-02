@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, Typography, Button, TextField } from "@mui/material";
+import FetchApi from "../scripts/fetchApi";
 
 export default function Session() {
   const inputProps = [
@@ -9,10 +10,6 @@ export default function Session() {
       name: "email",
       value: undefined,
       required: true,
-      pattern: undefined,
-      disable: false,
-      error: false,
-      helperText: undefined,
     },
     {
       label: "Contraseña",
@@ -20,10 +17,7 @@ export default function Session() {
       name: "password",
       value: undefined,
       required: true,
-      pattern: undefined,
-      disable: false,
-      error: false,
-      helperText: undefined,
+      inputProps: { pattern: "(\\w|\\d){8,32}" },
     },
   ];
   const [inputState, setInputState] = useState(inputProps);
@@ -68,16 +62,17 @@ export default function Session() {
       });
 
       if (inputState.length === validCount) {
-        setInputState(
-          inputProps.map((element) => {
-            element.disable = true;
-            return element;
-          }),
-        );
-        console.log("form submitted", body);
+        setInputState(inputProps);
+
+        FetchApi("authentication", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }).then((data) => console.log(data));
       }
-    }
-    console.log("not submitted");
+    } else console.log("not submitted");
   };
 
   console.log("rendered");
