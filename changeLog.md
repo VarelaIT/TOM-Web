@@ -14,6 +14,8 @@ Login component: The user authentication method into the TOM application. This w
 - [ ] Session JWT
 - [ ] Landing view
   - ![Landing Mobile](assets/landingMobile.png)
+  - [x] Header component
+    - Using Material UI components
 - [ ] Login view
   - ![Login Mobile](assets/loginMobile.png)
 
