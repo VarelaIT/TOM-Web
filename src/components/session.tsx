@@ -1,8 +1,8 @@
-import { Box, Typography, Button } from "@mui/material";
-import InputELement from "./form/input";
+import { useState } from "react";
+import { Box, Typography, Button, TextField } from "@mui/material";
 
 export default function Session() {
-  const inputProps: Array<InputElementProps> = [
+  const inputProps = [
     {
       label: "Email",
       type: "email",
@@ -10,6 +10,9 @@ export default function Session() {
       value: undefined,
       required: true,
       pattern: undefined,
+      disable: false,
+      error: false,
+      helperText: undefined,
     },
     {
       label: "Contraseña",
@@ -18,15 +21,63 @@ export default function Session() {
       value: undefined,
       required: true,
       pattern: undefined,
+      disable: false,
+      error: false,
+      helperText: undefined,
     },
   ];
+  const [inputState, setInputState] = useState(inputProps);
+
+  const inputChange = (input: HTMLInputElement) => {
+    if (!input.checkValidity()) {
+      setInputState(
+        inputState.map((element) => {
+          if (element.name === input.name) {
+            element.error = true;
+            element.helperText = "Inválido.";
+          }
+          return element;
+        }),
+      );
+      return false;
+    } else {
+      setInputState(
+        inputState.map((element) => {
+          if (element.name === input.name) {
+            element.error = false;
+            element.helperText = undefined;
+          }
+          return element;
+        }),
+      );
+    }
+    return true;
+  };
 
   const submitForm = (ev: React.SyntheticEvent | undefined) => {
     if (ev !== undefined) {
       ev.preventDefault();
-      console.log(ev.target);
+      const body = {};
+      let validCount = 0;
+
+      inputProps.forEach((ele) => {
+        if (inputChange(ev.target[ele.name])) {
+          body[ele.name] = ev.target[ele.name].value;
+          validCount++;
+        }
+      });
+
+      if (inputState.length === validCount) {
+        setInputState(
+          inputProps.map((element) => {
+            element.disable = true;
+            return element;
+          }),
+        );
+        console.log("form submitted", body);
+      }
     }
-    console.log("form submitted");
+    console.log("not submitted");
   };
 
   console.log("rendered");
@@ -42,26 +93,40 @@ export default function Session() {
         height: "100%",
       }}
     >
-      <Box>
+      <Box style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <Typography variant="h2">Sesión</Typography>
-        <form
+        <Box
+          component="form"
           onSubmit={submitForm}
-          style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "32px",
+          }}
+          noValidate
         >
-          {inputProps.map((props, i) => (
-            <InputELement key={props.label + i} {...props} />
+          {inputState.map((props, index) => (
+            <TextField
+              key={props.label + index}
+              {...props}
+              onBlur={(ev) => inputChange(ev.target)}
+            />
           ))}
 
           <Button
-            onClick={submitForm}
             variant="contained"
             size="large"
             color="secondary"
+            type="submit"
             sx={{ widht: "100%", fontWeight: "bold" }}
           >
             Iniciar
           </Button>
-        </form>
+
+          <Button size="small" href="#">
+            Olvidaste tu contraseña?
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
