@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box, Typography, Button, TextField } from "@mui/material";
 import FetchApi from "../scripts/fetchApi";
+import { Link } from "react-router-dom";
 
 export default function Session() {
   const inputProps = [
@@ -111,16 +112,19 @@ export default function Session() {
           <Button
             variant="contained"
             size="large"
-            color="secondary"
+            color="primary"
             type="submit"
             sx={{ widht: "100%", fontWeight: "bold" }}
           >
             Iniciar
           </Button>
 
-          <Button size="small" href="#">
+          <Link
+            style={{ display: "block", textAlign: "center" }}
+            color="secondary"
+          >
             Olvidaste tu contraseña?
-          </Button>
+          </Link>
         </Box>
       </Box>
     </Box>

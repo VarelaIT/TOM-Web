@@ -1,4 +1,4 @@
-import Header from "./components/header";
+import HeaderNav from "./components/headerNav";
 import Landing from "./components/landing";
 import { Box } from "@mui/material";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
@@ -32,7 +32,7 @@ function App() {
 function Main() {
   return (
     <Box component="main" sx={{ height: "calc(100vh - 80px)" }}>
-      <Header />
+      <HeaderNav />
       <Outlet />
     </Box>
   );
