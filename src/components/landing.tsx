@@ -1,5 +1,6 @@
 import { Box, Typography, LinearProgress } from "@mui/material";
 import { Link } from "react-router-dom";
+import { BarChart } from "./d3JS/barChart";
 
 export default function Landing() {
   //center the content
@@ -28,7 +29,11 @@ export default function Landing() {
           TOM
         </Typography>
         <Box sx={{ width: "100%" }}>
-          <LinearProgress color="secondary" />
+          {
+          //<LinearProgress color="secondary" />
+          }
+          <BarChart/>
+
         </Box>
       </Box>
     </Box>
