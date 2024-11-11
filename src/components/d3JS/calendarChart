@@ -1,12 +1,11 @@
 import * as d3 from "d3";
 import { Box, Tooltip, Typography } from "@mui/material"
-import { sales } from "../../dummyData/sales";
+import { dailySales } from "../../dummyData/sales";
 import { useEffect, useMemo, useRef } from "react";
-import { applyDiscount } from "./functions";
 
 
 
-export function BarChart({
+export function CalendarChart({
   width = 640,
   height = 400,
   marginTop = 20,
@@ -19,13 +18,12 @@ export function BarChart({
     const gy = useRef();
     const dateScale = [marginLeft, width - marginRight];
     const ranges = useMemo(()=> {
-        return sales.reduce((acc, item) => {
+        return dailySales.reduce((acc, item) => {
             let total = item.price * item.quantity;
             if(item.discount)
                 total = applyDiscount(total, item.discount);
             if(acc.maxTotal < total)
                 acc.maxTotal = total;
-            console.log(total)
             const saleDate = new Date(item.timeStamp);
             if(acc.start > saleDate)
                 acc.start = saleDate;
@@ -73,36 +71,14 @@ export function BarChart({
                 sx={{
                     textAlign: "center"
                 }}
-            >Bar Chart Example</Typography>
+            >Callendar Chart Example</Typography>
             <Box
                 component={"article"}
             >
                 <svg width={width} height={height}>
-                    <g ref={gx} transform={`translate(0, ${height - marginBottom})`}/>
-                    <g ref={gy} transform={`translate(${marginLeft}, 0)`}/>
+                    <g ref={gx} transform={`translate(0, ${height - marginBottom})`} />
+                    <g ref={gy} transform={`translate(${marginLeft}, 0)`} />
                     <g >
-                        {sales.map((sale, i) => {
-                            let total = sale.quantity * sale.price;
-                            const saleDate = new Date(sale.timeStamp);
-                            if(sale.discount)
-                                total = applyDiscount(total, sale.discount);
-                            console.log(total)
-                            return (
-                                <Tooltip 
-                                    placement="top"
-                                    title={`$ ${total.toFixed(2)}`}
-                                >
-                                    <rect 
-                                        key={"charBars" + i} 
-                                        x={x(saleDate)} 
-                                        y={y(total)} 
-                                        height={y(0) - y(total)} 
-                                        width={10}
-                                        fill={colors[i % colors.length]}
-                                    />
-                                </Tooltip>
-                            )
-                        })}
                     </g>
                 </svg>
             </Box>
