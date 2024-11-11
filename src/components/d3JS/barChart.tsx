@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { Box, Typography } from "@mui/material"
+import { Box, Tooltip, Typography } from "@mui/material"
 import { sales } from "../../dummyData/sales";
 import { useEffect, useMemo, useRef } from "react";
 
@@ -33,6 +33,14 @@ export function BarChart({
             return acc;
         }, {maxTotal: 0, start: new Date(), end: new Date("1900-1-1")});
     }, []);
+    const colors = [
+        "#26e70a",
+        "#e77c0a",
+        "#e2137e",
+        "#333",
+        "#0a37e7",
+        "#3a0ae7",
+    ]
 
     const x = d3.scaleTime(
         [ranges.start, ranges.end],
@@ -78,23 +86,21 @@ export function BarChart({
                             if(sale.discount)
                                 total = applyDiscount(total, sale.discount);
                             console.log(total)
-                            return (<g>
-                                <rect 
-                                    key={"charBars" + i} 
-                                    x={x(saleDate)} 
-                                    y={y(total)} 
-                                    height={y(0) - y(total)} 
-                                    width={10}
-                                />
-                                <text
-                                    key={"charText" + i} 
-                                    x={x(saleDate)} 
-                                    y={y(total)} 
-                                    height={y(0) - y(total)} 
-                                    width={10}
-                                    style={{fontSize: "12px"}}
-                                >$ {total.toFixed(2)}</text>
-                            </g>)
+                            return (
+                                <Tooltip 
+                                    placement="top"
+                                    title={`$ ${total.toFixed(2)}`}
+                                >
+                                    <rect 
+                                        key={"charBars" + i} 
+                                        x={x(saleDate)} 
+                                        y={y(total)} 
+                                        height={y(0) - y(total)} 
+                                        width={10}
+                                        fill={colors[i % colors.length]}
+                                    />
+                                </Tooltip>
+                            )
                         })}
                     </g>
                 </svg>
